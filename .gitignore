@@ -6,3 +6,4 @@ bin
 # RubyMine project files
 .idea
 .env
+.gem
