@@ -2,10 +2,12 @@
 
 ## Usage
 
+Set your API key in the environment variable BN_API_KEY
+
 ### Create a request:
 
 ```ruby
-req = BarnesAndNoble.new(api_token)
+req = BarnesAndNoble.new
 ```
 #### Run a product lookup:
 
