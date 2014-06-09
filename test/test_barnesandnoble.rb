@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
+
 require_relative '../lib/barnesandnoble'
 
 class TestBarnesAndNoble < Minitest::Unit::TestCase
@@ -57,5 +58,14 @@ class TestBarnesAndNoble < Minitest::Unit::TestCase
     })
 
     refute_empty res.to_h
+  end
+
+  def test_handles_unicode_characters
+    res = @req.get('ProductLookup', {
+      'ProductCode' => 'Book',
+      'Ean' => '0942299663'
+    })
+
+    assert_equal 'La Jetée', res.to_h['ProductLookupResponse']['ProductLookupResult']['Product']['Titles']['Title']['title']
   end
 end
