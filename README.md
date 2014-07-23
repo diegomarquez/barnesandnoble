@@ -1,74 +1,35 @@
-**BarnesAndNoble** is a Ruby wrapper to the Barnes and Noble Product Web Services
+# Barnesandnoble
+
+**Barnesandnoble** is a Ruby wrapper to the Barnes and Noble Product Web Services.
 
 ## Usage
 
-Set your API key in the environment variable BN_API_KEY
+Set your API key with the environment variable `BN_API_KEY`.
 
-### Create a request:
+Create a request:
 
 ```ruby
-req = BarnesAndNoble.new
+request = Barnesandnoble.new
 ```
-#### Run a product lookup:
+
+Run a query:
 
 ```ruby
 params = {
-  'Ean' => 9781593083342,
-  'ProductCode' => 'Book'
+  "Ean" => 9781593083342,
+  "ProductCode" => "Book"
 }
-res = req.get('ProductLookup', params)
+response = request.product_lookup(query: params)
 ```
 
-#### Get categories for a product:
+Parse the response into a Hash:
 
 ```ruby
-params = {
-  'Ean' => 9781593083342,
-  'ProductCode' => 'Book'
-}
-res = req.get('GetCategories', params)
+response.to_h
 ```
 
-#### Get related bought products:
+Or pass it to a custom parser:
 
 ```ruby
-params = {
-  'Ean' => 9781593083342,
-  'ProductCode' => 'Book'
-}
-res = req.get('GetPwbab', params)
-```
-
-#### Get Top10 :
-
-```ruby
-params = {
-  'Top10SearchDomain' => 'Book',
-}
-res = req.get('Top10', params)
-```
-
-#### Run a products search by keywords:
-
-```ruby
-params = {
-  'SearchType': 'Book',
-  'Start': 1,
-  'Size': 5,
-  'ProductSort': 'BestSelling'
-  'Keyword': 'Foucault'
-}
-res = req.get('ProductSearch', params)
-```
-
-Parse the response into a Ruby Hash:
-
-```ruby
-res.to_h
-```
-
-Or pass its body into a custom parser:
-
-```ruby
-MyParser.new(res.body)
+MyParser.new(response.body)
 ```
