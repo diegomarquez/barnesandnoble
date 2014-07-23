@@ -1,7 +1,7 @@
-require 'forwardable'
-require 'barnesandnoble/request'
+require "forwardable"
+require "barnesandnoble/request"
 
-module BarnesAndNoble
+module Barnesandnoble
   class << self
     extend Forwardable
 

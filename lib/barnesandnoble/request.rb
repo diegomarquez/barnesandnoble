@@ -1,10 +1,7 @@
-require 'excon'
-require 'barnesandnoble/response'
-require 'uri'
+require "excon"
+require "barnesandnoble/response"
 
-module BarnesAndNoble
   class Request
-    def initialize(app_id = ENV['BN_API_KEY'])
       @app_id = app_id
     end
 

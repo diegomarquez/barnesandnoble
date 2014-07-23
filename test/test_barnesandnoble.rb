@@ -1,12 +1,12 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-require 'pry'
+require "minitest/autorun"
+require "minitest/pride"
+require "pry"
 
-require_relative '../lib/barnesandnoble'
+require_relative "../lib/barnesandnoble"
 
-class TestBarnesAndNoble < Minitest::Unit::TestCase
+class TestBarnesandnoble < Minitest::Test
   def setup
-    @req = BarnesAndNoble::Request.new
+    @req = Barnesandnoble.new
   end
 
   def test_product_lookup
@@ -65,7 +65,6 @@ class TestBarnesAndNoble < Minitest::Unit::TestCase
       'ProductCode' => 'Book',
       'Ean' => '0942299663'
     })
-
-    assert_equal 'La Jetée', res.to_h['ProductLookupResponse']['ProductLookupResult']['Product']['Titles']['Title']['title']
+    assert_equal "La Jetée", res.to_h["ProductLookupResponse"]["ProductLookupResult"]["Product"]["Titles"]["Title"]["title"]
   end
 end
