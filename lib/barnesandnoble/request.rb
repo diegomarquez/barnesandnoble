@@ -1,24 +1,52 @@
 require "excon"
 require "barnesandnoble/response"
 
+module Barnesandnoble
   class Request
+    def initialize(app_id = ENV["BN_API_KEY"])
       @app_id = app_id
     end
 
-    def get(method, query, excon_options = {})
-      query['AppId'] = @app_id
+    underscore = ->(str) {
+      str.gsub(/(.)([A-Z\d])/,'\1_\2').downcase
+    }
 
-      Response.new(connection(method, query).get(excon_options))
-    end
+    %w(ProductLookup ProductSearch Top10 GetCategories GetPwbab)
+      .each do |operation|
+        define_method(underscore.(operation)) do |options|
+          get_product(operation, options)
+        end
+      end
+
+    %w(GetTextBookRentalInfo)
+      .each do |operation|
+        define_method(underscore.(operation)) do |options|
+          get_textbook(operation, options)
+        end
+      end
 
     private
 
-    def hash_to_query(hash)
-      '?' + URI.encode(hash.map{|k,v| "#{k}=#{v}"}.join("&"))
+    def get_textbook(operation, options)
+      request(operation, options.merge(
+        path: "/TextBookService/v01_00/#{operation}"
+      ))
     end
 
-    def connection(request_type, query)
-      Excon.new("http://services.barnesandnoble.com/v03_00/#{request_type}#{hash_to_query(query)}", expects: 200)
+
+    def get_product(operation, options)
+      request(operation, options.merge(
+        path: "/v03_00/#{operation}"
+      ))
+    end
+
+    def request(operation, options)
+      options[:query]["AppId"] ||= @app_id
+      Response.new(http.get(options))
+    end
+
+    def http
+      Excon.new("http://services.barnesandnoble.com", expects: 200)
     end
   end
 end
