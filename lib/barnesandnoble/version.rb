@@ -1,3 +1,3 @@
-  VERSION = '0.1.1'
 module Barnesandnoble
+  VERSION = "0.2.0"
 end
