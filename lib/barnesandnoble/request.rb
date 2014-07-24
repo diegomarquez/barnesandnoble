@@ -14,27 +14,27 @@ module Barnesandnoble
     %w(ProductLookup ProductSearch Top10 GetCategories GetPwbab)
       .each do |operation|
         define_method(underscore.(operation)) do |options|
-          get_product(operation, options)
+          request_product(operation, options)
         end
       end
 
     %w(GetTextBookRentalInfo)
       .each do |operation|
         define_method(underscore.(operation)) do |options|
-          get_textbook(operation, options)
+          request_textbook(operation, options)
         end
       end
 
     private
 
-    def get_textbook(operation, options)
+    def request_textbook(operation, options)
       request(operation, options.merge(
         path: "/TextBookService/v01_00/#{operation}"
       ))
     end
 
 
-    def get_product(operation, options)
+    def request_product(operation, options)
       request(operation, options.merge(
         path: "/v03_00/#{operation}"
       ))
