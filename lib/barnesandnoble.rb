@@ -1,5 +1,7 @@
-require "forwardable"
-require "barnesandnoble/request"
+# frozen_string_literal: true
+
+require 'forwardable'
+require 'barnesandnoble/request'
 
 module Barnesandnoble
   class << self

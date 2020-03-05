@@ -1,26 +1,28 @@
-require "excon"
-require "barnesandnoble/response"
+# frozen_string_literal: true
+
+require 'excon'
+require 'barnesandnoble/response'
 
 module Barnesandnoble
   class Request
-    def initialize(app_id = ENV["BN_API_KEY"])
+    def initialize(app_id = ENV['BN_API_KEY'])
       @app_id = app_id
     end
 
-    underscore = ->(str) {
-      str.gsub(/(.)([A-Z\d])/,'\1_\2').downcase
+    underscore = lambda { |str|
+      str.gsub(/(.)([A-Z\d])/, '\1_\2').downcase
     }
 
-    %w(ProductLookup ProductSearch Top10 GetCategories GetPwbab)
+    %w[ProductLookup ProductSearch Top10 GetCategories GetPwbab]
       .each do |operation|
-        define_method(underscore.(operation)) do |options|
+        define_method(underscore.call(operation)) do |options|
           request_product(operation, options)
         end
       end
 
-    %w(GetTextBookRentalInfo)
+    %w[GetTextBookRentalInfo]
       .each do |operation|
-        define_method(underscore.(operation)) do |options|
+        define_method(underscore.call(operation)) do |options|
           request_textbook(operation, options)
         end
       end
@@ -29,24 +31,23 @@ module Barnesandnoble
 
     def request_textbook(operation, options)
       request(operation, options.merge(
-        path: "/TextBookService/v01_00/#{operation}"
-      ))
+                           path: "/TextBookService/v01_00/#{operation}"
+                         ))
     end
-
 
     def request_product(operation, options)
       request(operation, options.merge(
-        path: "/v03_00/#{operation}"
-      ))
+                           path: "/v03_00/#{operation}"
+                         ))
     end
 
-    def request(operation, options)
-      options[:query]["AppId"] ||= @app_id
+    def request(_operation, options)
+      options[:query]['AppId'] ||= @app_id
       Response.new(http.get(options))
     end
 
     def http
-      Excon.new("http://services.barnesandnoble.com", expects: 200)
+      Excon.new('http://services.barnesandnoble.com', expects: 200)
     end
   end
 end
