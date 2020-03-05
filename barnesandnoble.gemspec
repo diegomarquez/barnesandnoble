@@ -21,7 +21,6 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'multi_xml', '~> 0.5.5'
 
   gem.add_development_dependency 'minitest'
-  gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rake'
 
   gem.required_ruby_version = '>= 2.3'
