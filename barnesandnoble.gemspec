@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
 
   gem.add_runtime_dependency 'excon'
-  gem.add_runtime_dependency 'multi_xml', '~> 0.5.5'
+  gem.add_runtime_dependency 'multi_xml'
 
   gem.add_development_dependency 'minitest'
   gem.add_development_dependency 'rake'
